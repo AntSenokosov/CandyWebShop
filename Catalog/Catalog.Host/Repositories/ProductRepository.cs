@@ -1,6 +1,7 @@
 using Catalog.Host.Data;
 using Catalog.Host.Data.Entities;
 using Catalog.Host.Repositories.Interfaces;
+using Infrastructure.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Catalog.Host.Repositories;
@@ -9,9 +10,9 @@ public class ProductRepository : IProductRepository
 {
     private readonly CatalogDbContext _db;
 
-    public ProductRepository(CatalogDbContext db)
+    public ProductRepository(IDbContextWrapper<CatalogDbContext> db)
     {
-        _db = db;
+        _db = db.DbContext;
     }
 
     public async Task<IEnumerable<Product>> GetProductsAsync()
