@@ -1,9 +1,16 @@
 using Catalog.Host.Data.Entities;
+using Catalog.Host.Models.Enums;
 
 namespace Catalog.Host.Repositories.Interfaces;
 
 public interface IProductRepository
 {
+    public Task<IEnumerable<Product>> GetProductsByCatalogAsync(
+        int? categoryFilter,
+        int? manufactureFilter,
+        decimal? priceMinFilter,
+        decimal? priceMaxFilter,
+        TypeSorting? sorting);
     public Task<IEnumerable<Product>> GetProductsAsync();
     public Task<Product?> GetProductAsync(int id);
 

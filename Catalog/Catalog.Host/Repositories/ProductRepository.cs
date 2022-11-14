@@ -1,5 +1,6 @@
 using Catalog.Host.Data;
 using Catalog.Host.Data.Entities;
+using Catalog.Host.Models.Enums;
 using Catalog.Host.Repositories.Interfaces;
 using Infrastructure.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,49 @@ public class ProductRepository : IProductRepository
     public ProductRepository(IDbContextWrapper<CatalogDbContext> db)
     {
         _db = db.DbContext;
+    }
+
+    public async Task<IEnumerable<Product>> GetProductsByCatalogAsync(
+        int? categoryFilter,
+        int? manufactureFilter,
+        decimal? priceMinFilter,
+        decimal? priceMaxFilter,
+        TypeSorting? sorting)
+    {
+        IQueryable<Product> products = _db.Products;
+
+        if (categoryFilter.HasValue)
+        {
+            products = products.Where(p => p.CategoryId == categoryFilter.Value);
+        }
+
+        if (manufactureFilter.HasValue)
+        {
+            products = products.Where(p => p.ManufactureId == manufactureFilter.Value);
+        }
+
+        if (priceMinFilter >= 0 && priceMaxFilter > priceMinFilter)
+        {
+            products = products.Where(p => priceMinFilter <= p.Price && priceMaxFilter <= p.Price);
+        }
+
+        switch (sorting)
+        {
+            case TypeSorting.PriceAsc:
+                products = products.OrderBy(p => p.Price);
+                break;
+            case TypeSorting.PriceDesc:
+                products = products.OrderByDescending(p => p.Price);
+                break;
+            default:
+                products = products.OrderBy(p => p.Name);
+                break;
+        }
+
+        return await products
+            .Include(p => p.Category)
+            .Include(p => p.Manufacture)
+            .ToListAsync();
     }
 
     public async Task<IEnumerable<Product>> GetProductsAsync()
