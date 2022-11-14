@@ -14,7 +14,7 @@ public class CatalogService : BaseDataService<CatalogDbContext>, ICatalogService
     private readonly IMapper _mapper;
     private readonly IProductRepository _productRepository;
 
-    protected CatalogService(
+    public CatalogService(
         IDbContextWrapper<CatalogDbContext> dbContextWrapper,
         ILogger<BaseDataService<CatalogDbContext>> logger,
         IMapper mapper,

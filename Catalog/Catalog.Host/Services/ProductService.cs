@@ -13,7 +13,7 @@ public class ProductService : BaseDataService<CatalogDbContext>, IProductService
     private readonly IMapper _mapper;
     private readonly IProductRepository _productRepository;
 
-    protected ProductService(
+    public ProductService(
         IDbContextWrapper<CatalogDbContext> dbContextWrapper,
         ILogger<BaseDataService<CatalogDbContext>> logger,
         IMapper mapper,

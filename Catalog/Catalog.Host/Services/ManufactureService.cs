@@ -13,7 +13,7 @@ public class ManufactureService : BaseDataService<CatalogDbContext>, IManufactur
     private readonly IMapper _mapper;
     private readonly IManufactureRepository _manufactureRepository;
 
-    protected ManufactureService(
+    public ManufactureService(
         IDbContextWrapper<CatalogDbContext> dbContextWrapper,
         ILogger<BaseDataService<CatalogDbContext>> logger,
         IMapper mapper,

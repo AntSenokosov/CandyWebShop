@@ -13,7 +13,7 @@ public class CategoryService : BaseDataService<CatalogDbContext>, ICategoryServi
     private readonly IMapper _mapper;
     private readonly ICategoryRepository _categoryRepository;
 
-    protected CategoryService(
+    public CategoryService(
         IDbContextWrapper<CatalogDbContext> dbContextWrapper,
         ILogger<BaseDataService<CatalogDbContext>> logger,
         IMapper mapper,
